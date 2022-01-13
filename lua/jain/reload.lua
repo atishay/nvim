@@ -1,19 +1,45 @@
 local M = {}
+local R
+local P
+
+
+P = function(v)
+  print(vim.inspect(v))
+  return v
+end
+
+if pcall(require, "plenary") then
+  RELOAD = require("plenary.reload").reload_module
+
+  R = function(name)
+    RELOAD(name)
+    return require(name)
+  end
+end
+
+local function get_module_name(s)
+  local module_name;
+
+  module_name = s:gsub("%.lua", "")
+  module_name = module_name:gsub("/", ".")
+  module_name = module_name:gsub(".*config.nvim.lua", "")
+  module_name = module_name:gsub("%.init", "")
+
+  return module_name
+end
 
 function M.reload()
-  -- Telescope will give us something like ju/colors.lua, 
-  -- so this function convert the selected entry to 
-  -- the module name: ju.colors
-  local function get_module_name(s)
-    local module_name;
-
-    module_name = s:gsub("%.lua", "")
-    module_name = module_name:gsub("%/", ".")
-    module_name = module_name:gsub("%.init", "")
-
-    return module_name
+  local info = vim.fn.expand('%:p')
+  if string.match(info, "config/nvim/lua") then
+    local name = get_module_name(info)
+    R(name)
+    P(name .. " RELOADED!!!")
+  else
+    P(info .. "not in the right folder")
   end
+end
 
+function M.open()
   local prompt_title = "~ neovim modules ~"
 
   -- sets the path to the lua folder
@@ -22,22 +48,6 @@ function M.reload()
   local opts = {
     prompt_title = prompt_title,
     cwd = path,
-
-    attach_mappings = function(_, map)
-     -- Adds a new map to ctrl+e.
-      map("i", "<c-e>", function(_)
-        -- these two a very self-explanatory
-        local entry = require("telescope.actions.state").get_selected_entry()
-        local name = get_module_name(entry.value)
-
-        -- call the helper method to reload the module
-        -- and give some feedback
-        R(name)
-        P(name .. " RELOADED!!!")
-      end)
-
-      return true
-    end
   }
 
   -- call the builtin method to list files

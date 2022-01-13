@@ -15,8 +15,6 @@ end
 ------------------------------------------------------------------------------------
 --  Basic Keyboard shortcuts,
 ------------------------------------------------------------------------------------
--- Backspace
-map("n", "<BS>", "i<BS><Esc>`^");
 -- jj to Escape the insert mode
 -- inoremap jj <C-[>   -- Via Vim Better Escape
 map("i", "kk", "<C-o>");
@@ -25,8 +23,11 @@ map("c", "jj", "<C-[>");
 map("v", "jk", "<C-[>");
 
 -- Update config. Need too much.
-map('n', '<D-u>', '<cmd>:lua require("jain.reload").reload()<CR>')
-map('i', '<D-u>', '<cmd>:lua require("jain.reload").reload()<CR>')
+map('n', '<D-S-u>', '<cmd>:lua require("jain.reload").reload()<CR>')
+map('i', '<D-S-u>', '<cmd>:lua require("jain.reload").reload()<CR>')
+
+map('n', '<D-u>', '<cmd>:lua require("jain.reload").open()<CR>')
+map('i', '<D-u>', '<cmd>:lua require("jain.reload").open()<CR>')
 -- Update after nvim 0.6.2
 
 -- Accidental quitting
@@ -37,36 +38,31 @@ map('n', 'wq', ':wq');
 map('n', 'j', 'v:count ? \'j\' : \'gj\'', {expr = true });
 map('n', 'k', 'v:count ? \'k\' : \'gk\'', {expr = true });
 
--- File Menu
-map('n', '<D-p>', '<cmd>lua require(\'telescope.builtin\').find_files()<cr>');
-map('n', '<D-S-p>', '<cmd>lua require(\'telescope.builtin\').commands()<cr>');
-map('n', '<D-r>', '<cmd>lua require(\'telescope.builtin\').command_history()<cr>');
-
 -- After nvim 0.6.2
 -- map('n', '<D-p>', '', {callback = require('telescope.builtin').find_files});
 
 
 -- Visual movement with the arrows and End-Home
-map('n' '<Down>', 'gj');
-map('n' '<Up>', 'gk');
-map('v' '<Down>', 'gj');
-map('v' '<Up>', 'gkjj');
-map('i' '<Down>', '<C-o>gj');
-map('i' '<Up>', '<C-o>gk');
-map('i' '<Home>', '<C-o>g<Home>');
-map('i' '<End> ', '<C-o>g<End> ');
+map('n', '<Down>', 'gj');
+map('n', '<Up>', 'gk');
+map('v', '<Down>', 'gj');
+map('v', '<Up>', 'gkjj');
+map('i', '<Down>', '<C-o>gj');
+map('i', '<Up>', '<C-o>gk');
+map('i', '<Home>', '<C-o>g<Home>');
+map('i', '<End> ', '<C-o>g<End> ');
 
--- -- Navigating splits
+-- Navigating splits
 
-map('n', '<A-x>', ':sp<CR>');
-map('n', '<A-v>', ':vsp<CR>');
+map('n', '<M-x>', ':sp<CR>');
+map('n', '<M-v>', ':vsp<CR>');
 map('n', '<C-J>', '<C-W><C-J>');
 map('n', '<C-K>', '<C-W><C-K>');
 map('n', '<C-L>', '<C-W><C-L>');
 map('n', '<C-H>', '<C-W><C-H>');
 
-map('n', '<A-x>', '<C-[>:sp<CR>');
-map('n', '<A-v>', '<C-[>:vsp<CR>');
+map('n', '<M-x>', '<C-[>:sp<CR>');
+map('n', '<M-v>', '<C-[>:vsp<CR>');
 map('i', '<C-J>', '<C-[><C-W><C-J>');
 map('i', '<C-K>', '<C-[><C-W><C-K>');
 map('i', '<C-L>', '<C-[><C-W><C-L>');
@@ -86,198 +82,203 @@ map('t', '<C-Down>', '<C-\\><c-n><C-W><C-J>');
 map('t', '<C-Up>', '<C-\\><c-n><C-W><C-K>');
 map('t', '<C-Right>', '<C-\\><c-n><C-W><C-L>');
 map('t', '<C-Left>', '<C-\\><c-n><C-W><C-H>');
--- ----------------------------File Menu--------------------------------------
--- -- Save
--- nnoremap ⌘s :w<CR>
--- inoremap ⌘s <C-o>:w<CR>
--- vnoremap ⌘s <C-[>:w<CR>vgv
+----------------------------File Menu--------------------------------------
+
+-- Save
+map('n', '<D-s>', ':w<CR>');
+map('i', '<D-s>', '<C-o>:w<CR>');
+map('v', '<D-s>', '<C-[>:w<CR>vgv');
+
+map('n', '<D-p>', '<cmd>lua require(\'telescope.builtin\').find_files()<cr>');
+map('n', '<D-S-p>', '<cmd>lua require(\'telescope.builtin\').commands()<cr>');
+map('n', '<D-r>', '<cmd>lua require(\'telescope.builtin\').command_history()<cr>');
+
+map('i', '<D-p>', '<cmd>lua require(\'telescope.builtin\').find_files()<cr>');
+map('i', '<D-S-p>', '<cmd>lua require(\'telescope.builtin\').commands()<cr>');
+map('i', '<D-r>', '<cmd>lua require(\'telescope.builtin\').command_history()<cr>');
+
+map('t', '<D-p>', '<cmd>lua require(\'telescope.builtin\').find_files()<cr>');
+map('t', '<D-S-p>', '<cmd>lua require(\'telescope.builtin\').commands()<cr>');
+map('t', '<D-r>', '<cmd>lua require(\'telescope.builtin\').command_history()<cr>');
+
+map('n', '<D-w>', ':bd<CR>');
+map('i', '<D-w>', '<C-[>:bd<CR>');
+map('t', '<D-w>', '<C-/><C-n><CR>');
+map('v', '<D-w>', '<C-[>:bd<CR>');
+
+map('n', '<D-q>', ':%bdCR>');
+map('i', '<D-q>', '<C-[>:%bd<CR>');
+map('t', '<D-q>', '<C-/><C-n><CR>');
+map('v', '<D-q>', '<C-[>:%bd<CR>');
+
+map('n', '<M-D-z>', ':packadd undotree<CR>:UndotreeToggle<CR>');
+map('n', '<D-z>', 'u');
+map('v', '<D-z>', '<C-[>uvgv');
+map('i', '<D-z>', '<C-O>u');
+map('n', '<D-S-z>', '<C-r>');
+map('i', '<D-S-z>', '<C-O><C-r>');
 
 
--- nnoremap ⌘p :Files<CR>
--- inoremap ⌘p <C-[>:Files<CR>
--- tnoremap ⌘p <c-\><c-n>:Files<CR>
+------------------------------Edit Menu------------------------------
+map('v', '<D-c>', '"+y');
+map('n', '<D-c>', 'v"+y<Esc>');
+map('i', '<D-c>', '<Esc>lv"+y<Esc>i');
 
--- nnoremap ⌘w :q<CR>
--- inoremap ⌘w <C-[>:q<CR>
--- tnoremap ⌘w <C-/><C-n><CR>
--- vnoremap ⌘w <C-[>:q<CR>
+map('v', '<D-x>', '"+d');
+map('n', '<D-v>', ':set paste<CR>"+p');
+map('i', '<D-v>', '<C-R><C-P>+');
+map('v', '<D-v>', '"+p');
+map('t', '<D-v>', '<C-\\><C-N>"+pa');
+map('c', '<D-v>', '<C-R>+');
 
--- nnoremap ⌘⌥z :packadd undotree<CR>:UndotreeToggle<CR>
-
--- nnoremap ⌘v <C-O>u
--- nnoremap ⌘z u
--- vnoremap ⌘z <C-[>uvgv
--- inoremap ⌘z <C-O>u
--- nnoremap ⌘⇧z <C-r>
--- inoremap ⌘⇧z <C-O><C-r>
+map('n', '<D-f>', '<cmd>lua require(\'telescope.builtin\').live_grep()<cr>');
+map('i', '<D-f>', '<cmd>lua require(\'telescope.builtin\').live_grep()<cr>');
+map('t', '<D-f>', '<cmd>lua require(\'telescope.builtin\').live_grep()<cr>');
 
 
--- ------------------------------Edit Menu------------------------------
--- vnoremap ⌘c "+y
--- nnoremap ⌘c v"+y<Esc>
--- inoremap ⌘c <Esc>lv"+y<Esc>i
+map('n', '<D-M-f>',  ':%sno/');
+map('i', '<D-M-f>',  '<C-[>:%sno/');
 
--- vnoremap ⌘x "+d
--- nnoremap ⌘v :set paste<CR>"+p
--- inoremap ⌘v <C-R><C-P>+
--- vnoremap ⌘v "+p
--- tnoremap ⌘v <C-\><C-N>"+pa
--- cnoremap ⌘v <C-R>+
+map('n', '<D-S-f>', ':packadd nvim-spectre<CR>:lua require(\'spectre\').open()<CR>');
+map('i', '<D-S-f>', '<C-[>:packadd nvim-spectre<CR>:lua require(\'spectre\').open()<CR>');
 
--- nnoremap ⌘f /\V
--- inoremap ⌘f <C-[>/\V
--- nnoremap ⌘⌥f :%sno/
--- inoremap ⌘⌥f <C-[>:%sno/
-
--- nnoremap ⌘⇧f :Rg<CR>
--- inoremap ⌘⇧f <C-[>:Rg<CR>
-
--- ----------------------------Text Box--------------------------------------
--- -- Navigation
--- nnoremap ⌘← ^
--- inoremap ⌘← <C-o>^
--- vnoremap ⌘← ^
--- tnoremap ⌘← <left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
--- cnoremap ⌘← <C-b>
+----------------------------Text Box--------------------------------------
+-- Navigation
+map('n', '<D-left>',  '^');
+map('n', '<D-left><D-left>',  '0');
+map('i', '<D-left>',  '<C-o>^');
+map('v', '<D-left>',  '^');
+map('t', '<D-left>',  '<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>');
+map('c', '<D-left>',  '<C-b>');
 
 
--- nnoremap ⌘→ $
--- vnoremap ⌘→ $
--- tnoremap ⌘→ <right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right>
--- inoremap ⌘→ <C-o>$
--- cnoremap ⌘→ <C-e>
+map('n', '<D-right>', '$');
+map('v', '<D-right>', '$');
+map('t', '<D-right>', '<right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right><right>');
+map('i', '<D-right>', '<C-o>$');
+map('c', '<D-right>', '<C-e>');
 
--- nnoremap ⌘↑ gg
--- vnoremap ⌘↑ gg
--- inoremap ⌘↑ <C-o>gg
+map('n', '<D-up>', 'gg');
+map('v', '<D-up>', 'gg');
+map('i', '<D-up>', '<C-o>gg');
 
--- nnoremap ⌘↓ G
--- vnoremap ⌘↓ G
--- inoremap ⌘↓ <C-o>G
+map('n', '<D-down>', 'G');
+map('v', '<D-down>', 'G');
+map('i', '<D-down>', '<C-o>G');
 
--- noremap ⌥← B
--- vnoremap ⌥← B
--- inoremap ⌥← <C-o>B
--- tnoremap ⌥← <A-b>
--- cnoremap ⌥← <C-left>
+map('n', '<M-left>', 'B');
+map('v', '<M-left>', 'B');
+map('i', '<M-left>', '<C-o>B');
+map('t', '<M-left>', '<M-b>');
+map('c', '<M-left>', '<C-left>');
 
--- tnoremap ⌥→ <A-f>
--- nnoremap ⌥→ W
--- vnoremap ⌥→ W
--- inoremap ⌥→ <C-o>W
--- cnoremap ⌥→ <C-right>
+map('t', '<M-right>', '<M-f>');
+map('n', '<M-right>', 'W');
+map('v', '<M-right>', 'W');
+map('i', '<M-right>', '<C-o>W');
+map('c', '<M-right>', '<C-right>');
 
--- noremap <A-left> B
--- vnoremap <A-left> B
--- inoremap <A-left> <C-o>B
--- tnoremap <A-left> <A-b>
--- cnoremap <A-left> <C-left>
+-- Backspace
+map("n", "<BS>", "i<BS><Esc>`^");
+map('i', '<D-BS>', '<C-o>d0');
+map('n', '<D-BS>', 'd0');
+map('v', '<D-BS>', 'dd0');
+map('t', '<D-BS>', '<C-u>');
+map('c', '<D-BS>', '<C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w>');
 
--- tnoremap <A-right> <A-f>
--- nnoremap <A-right> W
--- vnoremap <A-right> W
--- inoremap <A-right> <C-o>W
--- cnoremap <A-right> <C-right>
+map('n', '<M-BS>', 'dB');
+map('i', '<M-BS>', '<C-o>dB');
+map('v', '<M-BS>', '<C-o>ddB');
+map('c', '<M-BS>', '<C-w>');
 
--- -- Deletion
--- inoremap ⌘⌫ <C-o>d0
--- nnoremap ⌘⌫ d0
--- vnoremap ⌘⌫ dd0
--- tnoremap ⌘⌫ <C-u>
--- cnoremap ⌘⌫ <C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w><C-w>
+-- Selection
+map('n', '<S-Up>', 'v<Up>');
+map('n', '<S-Down>', 'v<Down>');
+map('n', '<S-Left>', 'v<Left>');
+map('n', '<S-Right>', 'v<Right>');
+map('v', '<S-Up>', '<Up>');
+map('v', '<S-Down>', '<Down>');
+map('v', '<S-Left>', '<Left>');
+map('v', '<S-Right>', '<Right>');
+map('i', '<S-Up>', '<C-[>v<Up>');
+map('i', '<S-Down>', '<C-[>v<Down>');
+map('i', '<S-Left>', '<C-[>v<Left>');
+map('i', '<S-Right>', '<C-[>v<Right>');
+map('t', '<S-Up>', '<C-[><C-n>v<Up>');
+map('t', '<S-Down>', '<C-\\><C-n>v<Down>');
+map('t', '<S-Left>', '<C-\\><C-n>v<Left>');
+map('t', '<S-Right>', '<C-\\><C-n>v<Right>');
 
--- nnoremap ⌥⌫ dB
--- inoremap ⌥⌫ <C-o>dB
--- vnoremap ⌥⌫ <C-o>ddB
--- cnoremap ⌥⌫ <C-w>
+map('n', '<D-S-left><D-S-left>', 'v0');
+map('n', '<D-S-left>', 'v^');
+map('n', '<D-S-right>', 'v$');
+map('n', '<D-S-down>', 'vG');
+map('n', '<D-S-up>', 'vgg');
+map('v', '<D-S-left>', '0');
+map('v', '<D-S-right>', '$');
+map('v', '<D-S-down>', 'vG');
+map('v', '<D-S-up>', 'vgg');
+map('i', '<D-S-left>', '<C-[>v0');
+map('i', '<D-S-right>', '<C-[>v$');
+map('i', '<D-S-down>', '<C-[>vG');
+map('i', '<D-S-up>', '<C-[>vgg');
+map('t', '<D-S-left>', '<C-/><C-n>v0');
+map('t', '<D-S-right>', '<C-/><C-n>v$');
+map('t', '<D-S-down>', '<C-/><C-n>vG');
+map('t', '<D-S-up>', '<C-/><C-n>vgg');
 
--- -- Selection
--- nmap <S-Up> v<Up>
--- nmap <S-Down> v<Down>
--- nmap <S-Left> v<Left>
--- nmap <S-Right> v<Right>
--- vmap <S-Up> <Up>
--- vmap <S-Down> <Down>
--- vmap <S-Left> <Left>
--- vmap <S-Right> <Right>
--- imap <S-Up> <C-[>v<Up>
--- imap <S-Down> <C-[>v<Down>
--- imap <S-Left> <C-[>v<Left>
--- imap <S-Right> <C-[>v<Right>
--- tmap <S-Up> <C-[><C-n>v<Up>
--- tmap <S-Down> <C-\><C-n>v<Down>
--- tmap <S-Left> <C-\><C-n>v<Left>
--- tmap <S-Right> <C-\><C-n>v<Right>
+map('n', '<M-S-left>', 'vB');
+map('n', '<M-S-right>', 'vW');
+map('v', '<M-S-left>', 'B');
+map('v', '<M-S-right>', 'W');
+map('i', '<M-S-left>', '<C-[>vB');
+map('i', '<M-S-right>', '<C-[>vW');
+map('t', '<M-S-left>', '<C-\\><C-n>vB');
+map('t', '<M-S-right>', '<C-\\><C-n>vW');
 
--- nmap ⌘⇧← v0
--- nmap ⌘⇧→ v$
--- nmap ⌘⇧↓ vG
--- nmap ⌘⇧↑ vgg
--- vmap ⌘⇧← 0
--- vmap ⌘⇧→ $
--- vmap ⌘⇧↓ vG
--- vmap ⌘⇧↑ vgg
--- imap ⌘⇧← <C-[>v0
--- imap ⌘⇧→ <C-[>v$
--- imap ⌘⇧↓ <C-[>vG
--- imap ⌘⇧↑ <C-[>vgg
--- tmap ⌘⇧← <C-/><C-n>v0
--- tmap ⌘⇧→ <C-/><C-n>v$
--- tmap ⌘⇧↓ <C-/><C-n>vG
--- tmap ⌘⇧↑ <C-/><C-n>vgg
+-- Shifting
+map('n', '<M-j>', ':m .+1<CR>==');
+map('n', '<M-k>', ':m .-2<CR>==');
+map('i', '<M-j>', '<Esc>:m .+1<CR>==gi');
+map('i', '<M-k>', '<Esc>:m .-2<CR>==gi');
+map('v', '<M-j>', ':m \'>+1<CR>gv=gv');
+map('v', '<M-k>', ':m \'<-2<CR>gv=gv');
 
--- nmap <A-S-left> vB
--- nmap <A-S-right> vW
--- vmap <A-S-left> B
--- vmap <A-S-right> W
--- imap <A-S-left> <C-[>vB
--- imap <A-S-right> <C-[>vW
--- tmap <A-S-left> <C-\><C-n>vB
--- tmap <A-S-right> <C-\><C-n>vW
-
--- -- Shifting
--- nnoremap <A-j> :m .+1<CR>==
--- nnoremap <A-k> :m .-2<CR>==
--- inoremap <A-j> <Esc>:m .+1<CR>==gi
--- inoremap <A-k> <Esc>:m .-2<CR>==gi
--- vnoremap <A-j> :m '>+1<CR>gv=gv
--- vnoremap <A-k> :m '<-2<CR>gv=gv
-
--- nnoremap <A-down> :m .+1<CR>==
--- nnoremap <A-up> :m .-2<CR>==
--- inoremap <A-down> <Esc>:m .+1<CR>==gi
--- inoremap <A-up> <Esc>:m .-2<CR>==gi
--- vnoremap <A-down> :m '>+1<CR>gv=gv
--- vnoremap <A-up> :m '<-2<CR>gv=gv
+map('n', '<M-down>', ':m .+1<CR>==');
+map('n', '<M-up>', ':m .-2<CR>==');
+map('i', '<M-down>', '<Esc>:m .+1<CR>==gi');
+map('i', '<M-up>', '<Esc>:m .-2<CR>==gi');
+map('v', '<M-down>', ':m \'>+1<CR>gv=gv');
+map('v', '<M-up>', ':m \'<-2<CR>gv=gv');
 
 
--- ------------------------------Others--------------------------------
+------------------------------Others--------------------------------
 
--- -- Clear terminal
--- tnoremap <A-c> <C-l>
+-- Clear terminal
+map('t', '<M-c>', '<C-l>');
 
--- -- Open explorer
--- nnoremap ⌘b :Vexplore<CR>
--- inoremap ⌘b <C-o>:Vexplore<CR>
--- vnoremap ⌘b <C-[>:Vexplore<CR>
--- tnoremap ⌘b <C-\><C-n>:Vexplore<CR>
+-- Open explorer
+map('n', '<D-b>', ':NvimTreeToggle<CR>');
+map('i', '<D-b>', '<C-o>:NvimTreeToggle<CR>');
+map('v', '<D-b>', '<C-[>:NvimTreeToggle<CR>');
+map('t', '<D-b>', '<C-\\><C-n>:NvimTreeToggle<CR>');
 
--- -- Comment
--- nmap ⌘/ gcc
--- vmap ⌘/ gc
--- imap ⌘/ <C-o>gcc
+-- Comment
+map('n', '<D-/>', 'gcc', {noremap = false});
+map('v', '<D-/>', 'gc', {noremap = false});
+map('i', '<D-/>', '<C-o>gcc', {noremap = false});
 
--- -- Indentation
--- vnoremap > >gv
--- vnoremap < <gv
--- nnoremap ⌘] >>
--- nnoremap ⌘[ <<
--- inoremap ⌘] <C-o>>>
--- inoremap ⌘[ <C-o><<
--- vnoremap ⌘[ <gv
--- vnoremap ⌘] >gv
+-- Indentation
+map('v', '>', '>gv')
+map('v', '<', '<gv')
+map('n', '<D-]>', '>>');
+map('n', '<D-[>', '<<');
+map('i', '<D-]>', '<C-o>>>');
+map('i', '<D-[>', '<C-o><<');
+map('v', '<D-[>', '<gv');
+map('v', '<D-]>', '>gv');
 
--- -- Multiple Cursors
+-- Multiple Cursors
 -- nnoremap ⌘⇧d :packadd vim-visual-multi<CR>
 -- inoremap ⌘⇧d <C-o>:packadd vim-visual-multi<CR>
 -- vnoremap ⌘⇧d <C-[>:packadd vim-visual-multi<CR>
@@ -290,10 +291,11 @@ map('t', '<C-Left>', '<C-\\><c-n><C-W><C-H>');
 -- inoremap ⌃` <C-[>:split term://zsh<CR>
 -- vnoremap ⌃` :split term://zsh<CR>
 
--- -- Visual Mode
--- vnoremap <A-"> di""<Esc>PlvF""
--- vnoremap <A-'> di''<Esc>PlvF'
--- vnoremap <A-<> di<><Esc>PlvF<
--- vnoremap <A-{> di{}<Esc>PlvF{
--- vnoremap <A-[> di[]<Esc>PlvF[
--- vnoremap <A-(> di()<Esc>PlvF(
+-- Visual Mode
+-- If it pains too much choose key or vim surround.
+-- map('v', '<M-S-\'>', 'di""<Esc>PlvF""');
+-- map('v', '<M-\'>', 'di\'\'<Esc>PlvF\'');
+-- map('v', '<M-,>', 'di<><Esc>PlvF<');
+-- map('v', '<M-S-[>', 'di{}<Esc>PlvF{');
+-- map('v', '<M-[>', 'di[]<Esc>PlvF[');
+-- map('v', '<M-S-9>', 'di()<Esc>PlvF(');
