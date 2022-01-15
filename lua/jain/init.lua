@@ -25,9 +25,11 @@ require "paq" {
   {"nvim-pack/nvim-spectre", opt=true};               -- Find/Replace All
   'ygm2/rooter.nvim';                                 -- Project Root
   'kyazdani42/nvim-tree.lua';                         -- File Browser
-  'gelguy/wilder.nvim';                               -- Better Wildmenu
   'yggdroot/indentline';                              -- Indent line for spaces
   {'echasnovski/mini.nvim', branch="stable"};         -- Small Utilities
+  'akinsho/toggleterm.nvim';                          -- Better terminal
+  'haya14busa/is.vim';                                -- Incremental Search
+  'nvim-lualine/lualine.nvim';                        -- Status Bar
 
 }
 
@@ -54,41 +56,6 @@ local huge = false
 if fsize > 1024 * 1024 then
   local huge = true
 end
-
--- Wild menu
-vim.call('wilder#setup', 
-{
-  modes = {':', '/', '?'},
-  enable_cmdline_enter = 0
-});
-
-vim.cmd [[
-let s:trigger_size = exists('g:hugefile_trigger_size') ? (g:hugefile_trigger_size * 1048576) : 2097152
-
-augroup wilddisable
-  autocmd!
-  autocmd BufReadPre *
-        \ let size = getfsize(expand('<afile>')) |
-        \ if (size > s:trigger_size) || (size == -2) |
-        \   call wilder#disable() |
-        \ endif |
-        \ unlet size
-augroup END
-
-]]
-
-vim.cmd [[
-call wilder#set_option('renderer', wilder#popupmenu_renderer(wilder#popupmenu_border_theme({
-  \ 'highlighter': wilder#basic_highlighter(),
-  \ 'left': [
-  \   ' ', wilder#popupmenu_devicons(),
-  \ ],
-  \ 'right': [
-  \   ' ', wilder#popupmenu_scrollbar(),
-  \ ],
-  \ 'border': 'rounded',
-  \ })))
-  ]]
 
 -- More setups
 require('impatient');
@@ -129,6 +96,10 @@ require('mini.trailspace').setup();
       tabnine = {
         enabled = true,
       }
+    },
+    keymap = {
+      jump_to_mark = '',
+      bigger_preview = ''
     }
   }
 
@@ -147,7 +118,8 @@ require('mini.trailspace').setup();
     textobjects = { enable = true },
   }
 
-  require('jain.keyboard')
+  require("toggleterm").setup{}
+  require('lualine').setup()
 
   vim.cmd('colorscheme monokai')
   vim.o.number = true
@@ -179,9 +151,11 @@ require('mini.trailspace').setup();
   vim.o.foldenable=false
   vim.o.foldlevel=2
   vim.o.inccommand='split'
+  vim.o.hidden=true
 
 
   vim.g.rooter_pattern = {'.git'} 
   vim.g.outermost_root = false
   require('rooter');
+  require('jain.keyboard')
 

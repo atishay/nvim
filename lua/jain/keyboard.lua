@@ -56,13 +56,25 @@ map('i', '<End> ', '<C-o>g<End> ');
 
 map('n', '<M-x>', ':sp<CR>');
 map('n', '<M-v>', ':vsp<CR>');
-map('n', '<C-J>', '<C-W><C-J>');
-map('n', '<C-K>', '<C-W><C-K>');
-map('n', '<C-L>', '<C-W><C-L>');
-map('n', '<C-H>', '<C-W><C-H>');
 
-map('n', '<M-x>', '<C-[>:sp<CR>');
-map('n', '<M-v>', '<C-[>:vsp<CR>');
+map('n', '<D-j>', '<C-W><C-j>');
+map('n', '<D-k>', '<C-W><C-k>');
+map('n', '<D-l>', '<C-W><C-l>');
+map('n', '<D-h>', '<C-W><C-h>');
+
+map('n', '<C-j>', '<C-W><C-j>');
+map('n', '<C-k>', '<C-W><C-k>');
+map('n', '<C-l>', '<C-W><C-l>');
+map('n', '<C-h>', '<C-W><C-h>');
+
+map('i', '<M-x>', '<C-[>:sp<CR>');
+map('i', '<M-v>', '<C-[>:vsp<CR>');
+
+map('i', '<D-J>', '<C-[><C-W><C-J>');
+map('i', '<D-K>', '<C-[><C-W><C-K>');
+map('i', '<D-L>', '<C-[><C-W><C-L>');
+map('i', '<D-H>', '<C-[><C-W><C-H>');
+
 map('i', '<C-J>', '<C-[><C-W><C-J>');
 map('i', '<C-K>', '<C-[><C-W><C-K>');
 map('i', '<C-L>', '<C-[><C-W><C-L>');
@@ -82,6 +94,19 @@ map('t', '<C-Down>', '<C-\\><c-n><C-W><C-J>');
 map('t', '<C-Up>', '<C-\\><c-n><C-W><C-K>');
 map('t', '<C-Right>', '<C-\\><c-n><C-W><C-L>');
 map('t', '<C-Left>', '<C-\\><c-n><C-W><C-H>');
+
+map('t', '<D-j>', '<C-\\><c-n><C-W><C-J>');
+map('t', '<D-k>', '<C-\\><c-n><C-W><C-K>');
+map('t', '<D-l>', '<C-\\><c-n><C-W><C-L>');
+map('t', '<D-h>', '<C-\\><c-n><C-W><C-H>');
+
+map('t', '<C-j>', '<C-\\><c-n><C-W><C-J>');
+map('t', '<C-k>', '<C-\\><c-n><C-W><C-K>');
+map('t', '<C-l>', '<C-\\><c-n><C-W><C-L>');
+map('t', '<C-h>', '<C-\\><c-n><C-W><C-H>');
+
+
+
 ----------------------------File Menu--------------------------------------
 
 -- Save
@@ -90,16 +115,16 @@ map('i', '<D-s>', '<C-o>:w<CR>');
 map('v', '<D-s>', '<C-[>:w<CR>vgv');
 
 map('n', '<D-p>', '<cmd>lua require(\'telescope.builtin\').find_files()<cr>');
-map('n', '<D-S-p>', '<cmd>lua require(\'telescope.builtin\').commands()<cr>');
-map('n', '<D-r>', '<cmd>lua require(\'telescope.builtin\').command_history()<cr>');
+map('n', '<D-S-p>', '<cmd>lua require(\'telescope.builtin\').builtin()<cr>');
+map('n', '<D-r>', '<cmd>lua require(\'telescope.builtin\').commands()<cr>');
 
 map('i', '<D-p>', '<cmd>lua require(\'telescope.builtin\').find_files()<cr>');
-map('i', '<D-S-p>', '<cmd>lua require(\'telescope.builtin\').commands()<cr>');
-map('i', '<D-r>', '<cmd>lua require(\'telescope.builtin\').command_history()<cr>');
+map('i', '<D-S-p>', '<cmd>lua require(\'telescope.builtin\').builtin()<cr>');
+map('i', '<D-r>', '<cmd>lua require(\'telescope.builtin\').commands()<cr>');
 
 map('t', '<D-p>', '<cmd>lua require(\'telescope.builtin\').find_files()<cr>');
-map('t', '<D-S-p>', '<cmd>lua require(\'telescope.builtin\').commands()<cr>');
-map('t', '<D-r>', '<cmd>lua require(\'telescope.builtin\').command_history()<cr>');
+map('t', '<D-S-p>', '<cmd>lua require(\'telescope.builtin\').builtin()<cr>');
+map('t', '<D-r>', '<cmd>lua require(\'telescope.builtin\').commands()<cr>');
 
 map('n', '<D-w>', ':bd<CR>');
 map('i', '<D-w>', '<C-[>:bd<CR>');
@@ -287,9 +312,15 @@ map('v', '<D-]>', '>gv');
 -- vmap ⌘d <C-n>
 -- vmap ⌘⇧l \\c
 
--- nnoremap ⌃` :split term://zsh<CR>
--- inoremap ⌃` <C-[>:split term://zsh<CR>
--- vnoremap ⌃` :split term://zsh<CR>
+map('n', '<C-`>', ':ToggleTerm<CR>');
+map('i', '<C-`>', '<C-[>:ToggleTerm<CR>');
+map('v', '<C-`>', ':ToggleTerm<CR>');
+map('t', '<C-`>', '<C-\\><C-n>:ToggleTerm<CR>');
+
+map('n', '<C-1>', ':ToggleTerm 2<CR>');
+map('i', '<C-1>', '<C-[>:ToggleTerm 2<CR>');
+map('v', '<C-1>', ':ToggleTerm 2<CR>');
+map('t', '<C-1>', '<C-\\><C-n>:ToggleTerm 2<CR>');
 
 -- Visual Mode
 -- If it pains too much choose key or vim surround.
