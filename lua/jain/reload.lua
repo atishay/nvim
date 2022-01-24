@@ -35,7 +35,7 @@ function M.reload()
     R(name)
     P(name .. " RELOADED!!!")
   else
-    P(info .. "not in the right folder")
+    P(info .. " not in the right folder")
   end
 end
 

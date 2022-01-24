@@ -41,7 +41,6 @@ map('n', 'k', 'v:count ? \'k\' : \'gk\'', {expr = true });
 -- After nvim 0.6.2
 -- map('n', '<D-p>', '', {callback = require('telescope.builtin').find_files});
 
-
 -- Visual movement with the arrows and End-Home
 map('n', '<Down>', 'gj');
 map('n', '<Up>', 'gk');
@@ -51,6 +50,8 @@ map('i', '<Down>', '<C-o>gj');
 map('i', '<Up>', '<C-o>gk');
 map('i', '<Home>', '<C-o>g<Home>');
 map('i', '<End> ', '<C-o>g<End> ');
+
+-- map('n', '<RightMouse>', '<cmd>echo "Right Mouse"<CR>');
 
 -- Navigating splits
 
@@ -115,21 +116,21 @@ map('i', '<D-s>', '<C-o>:w<CR>');
 map('v', '<D-s>', '<C-[>:w<CR>vgv');
 
 map('n', '<D-p>', '<cmd>lua require(\'telescope.builtin\').find_files()<cr>');
-map('n', '<D-S-p>', '<cmd>lua require(\'telescope.builtin\').builtin()<cr>');
-map('n', '<D-r>', '<cmd>lua require(\'telescope.builtin\').commands()<cr>');
+map('n', '<D-S-p>', '<cmd>lua require(\'telescope.builtin\').commands()<cr>');
+map('n', '<D-r>', '<cmd>lua require(\'telescope.builtin\').builtins()<cr>');
 
 map('i', '<D-p>', '<cmd>lua require(\'telescope.builtin\').find_files()<cr>');
-map('i', '<D-S-p>', '<cmd>lua require(\'telescope.builtin\').builtin()<cr>');
-map('i', '<D-r>', '<cmd>lua require(\'telescope.builtin\').commands()<cr>');
+map('i', '<D-S-p>', '<cmd>lua require(\'telescope.builtin\').commands()<cr>');
+map('i', '<D-r>', '<cmd>lua require(\'telescope.builtin\').builtins()<cr>');
 
 map('t', '<D-p>', '<cmd>lua require(\'telescope.builtin\').find_files()<cr>');
-map('t', '<D-S-p>', '<cmd>lua require(\'telescope.builtin\').builtin()<cr>');
-map('t', '<D-r>', '<cmd>lua require(\'telescope.builtin\').commands()<cr>');
+map('t', '<D-S-p>', '<cmd>lua require(\'telescope.builtin\').commands()<cr>');
+map('t', '<D-r>', '<cmd>lua require(\'telescope.builtin\').builtins()<cr>');
 
-map('n', '<D-w>', ':bd<CR>');
-map('i', '<D-w>', '<C-[>:bd<CR>');
+map('n', '<D-w>', ':lua MiniBufremove.delete()<CR>');
+map('i', '<D-w>', '<C-[>:lua MiniBufremove.delete()<CR>');
 map('t', '<D-w>', '<C-/><C-n><CR>');
-map('v', '<D-w>', '<C-[>:bd<CR>');
+map('v', '<D-w>', '<C-[>:lua MiniBufremove.delete()<CR>');
 
 map('n', '<D-q>', ':%bdCR>');
 map('i', '<D-q>', '<C-[>:%bd<CR>');
@@ -166,6 +167,7 @@ map('i', '<D-M-f>',  '<C-[>:%sno/');
 
 map('n', '<D-S-f>', ':packadd nvim-spectre<CR>:lua require(\'spectre\').open()<CR>');
 map('i', '<D-S-f>', '<C-[>:packadd nvim-spectre<CR>:lua require(\'spectre\').open()<CR>');
+map('n', '===', ':Neoformat<CR>');
 
 ----------------------------Text Box--------------------------------------
 -- Navigation
@@ -304,13 +306,10 @@ map('v', '<D-[>', '<gv');
 map('v', '<D-]>', '>gv');
 
 -- Multiple Cursors
--- nnoremap ⌘⇧d :packadd vim-visual-multi<CR>
--- inoremap ⌘⇧d <C-o>:packadd vim-visual-multi<CR>
--- vnoremap ⌘⇧d <C-[>:packadd vim-visual-multi<CR>
--- nmap ⌘d <C-n>
--- imap ⌘d <C-n>
--- vmap ⌘d <C-n>
--- vmap ⌘⇧l \\c
+map('n', '<D-d>', '<C-n>', {noremap = false});
+map('i', '<D-d>', '<C-n>', {noremap = false});
+map('v', '<D-d>', '<C-n>', {noremap = false});
+map('v', '<D-s-l>', '\\\\c', {noremap = false});
 
 map('n', '<C-`>', ':ToggleTerm<CR>');
 map('i', '<C-`>', '<C-[>:ToggleTerm<CR>');
@@ -322,11 +321,13 @@ map('i', '<C-1>', '<C-[>:ToggleTerm 2<CR>');
 map('v', '<C-1>', ':ToggleTerm 2<CR>');
 map('t', '<C-1>', '<C-\\><C-n>:ToggleTerm 2<CR>');
 
--- Visual Mode
--- If it pains too much choose key or vim surround.
--- map('v', '<M-S-\'>', 'di""<Esc>PlvF""');
--- map('v', '<M-\'>', 'di\'\'<Esc>PlvF\'');
--- map('v', '<M-,>', 'di<><Esc>PlvF<');
--- map('v', '<M-S-[>', 'di{}<Esc>PlvF{');
--- map('v', '<M-[>', 'di[]<Esc>PlvF[');
--- map('v', '<M-S-9>', 'di()<Esc>PlvF(');
+-- Visual Mode quotes
+map('v', '`', 'S`', {noremap = false});
+map('v', '<', 'S<', {noremap = false});
+map('v', '[', 'S[', {noremap = false});
+map('v', '{', 'S{', {noremap = false});
+map('v', '(', 'S(', {noremap = false});
+map('v', '"', 'S"', {noremap = false});
+map('v', '\'', 'S\'', {noremap = false});
+map('v', '{{', '{');
+
