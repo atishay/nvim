@@ -6,6 +6,10 @@ if fn.empty(fn.glob(install_path)) > 0 then
   fn.system({'git', 'clone', '--depth=1', 'https://github.com/savq/paq-nvim.git', install_path})
 end
 
+local function tsUpdate()
+  vim.cmd[[<cmd>:TSUpdate<CR>]]
+end
+
 require "paq" {
   "savq/paq-nvim";                                                      -- Let Paq manage itself
   "mhinz/vim-hugefile";                                                 -- Support for large files
@@ -17,7 +21,7 @@ require "paq" {
   "nvim-telescope/telescope.nvim";                                      -- Telescope for Ctrl+P menu
   "nvim-telescope/telescope-fzy-native.nvim";                           -- Telescope Fuzzy Native
   "github/copilot.vim";                                                 -- GitHub Copilot
-  {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"};               -- Syntax highlighting
+  {"nvim-treesitter/nvim-treesitter", run = tsUpdate };                 -- Syntax highlighting
   {"nvim-treesitter/nvim-treesitter-refactor"};                         -- Refactor
   {"nvim-treesitter/nvim-treesitter-textobjects"};                      -- Text Objects
   'windwp/nvim-ts-autotag';                                             -- Autotag
@@ -39,6 +43,8 @@ require "paq" {
   'akinsho/bufferline.nvim';                                            -- Buffer Line
   'pgdouyon/vim-evanesco';                                              -- Remove annoying search highlight.
   'sbdchd/neoformat';                                                   -- Formatting
+  'MunifTanjim/nui.nvim';                                               -- Create UI (Context Menu)
+  'sindrets/diffview.nvim';                                             -- Diff View
 }
 
 
@@ -46,19 +52,65 @@ vim.g.neoformat_enabled_html = {'prettier', 'jsbeautify'}
 vim.g.neoformat_enabled_json = {'jsbeautify', 'prettier'}
 vim.g.neoformat_enabled_javascript = {'prettier', 'jsbeautify'}
 vim.g.neoformat_enabled_typescript = {'prettier', 'jsbeautify'}
+vim.g.neoformat_enabled_lua = {'lua-format'}
 
+local Menu = require("nui.menu")
 
 require('impatient');
 
 
 local function sidebar_context_menu(node)
+  -- require("nvim-tree.view").focus()
   vim.cmd [[
   execute "normal! \<LeftMouse>"
   ]]
   local lib = require'nvim-tree.lib'
   local node = lib.get_node_at_cursor()
   if not node then return end
-  print(node.absolute_path)
+  print("Creating menu")
+  local popup_options = {
+    relative = "cursor",
+    position = {
+      row = 1,
+      col = 0,
+    },
+    border = {
+      style = "rounded",
+    }
+  }
+  local event = require("nui.utils.autocmd").event
+  local menu = Menu(popup_options, {
+    lines = {
+      Menu.separator("Group One"),
+      Menu.item("Item 1"),
+      Menu.item("Item 2"),
+      Menu.separator("Group Two", {
+        char = "-",
+        text_align = "right",
+      }),
+      Menu.item("Item 3"),
+      Menu.item("Item 4"),
+    },
+    max_width = 150,
+    keymap = {
+      focus_next = { "j", "<Down>", "<Tab>" },
+      focus_prev = { "k", "<Up>", "<S-Tab>" },
+      close = { "<Esc>", "<C-c>" },
+      submit = { "<CR>", "<Space>" },
+    },
+    on_close = function()
+      print("CLOSED")
+    end,
+    on_submit = function(item)
+      print("SUBMITTED", vim.inspect(item))
+    end,
+  })
+  -- print(node.absolute_path)
+  -- mount the component
+  menu:mount()
+
+  -- close menu when cursor leaves buffer
+  menu:on(event.BufLeave, menu.menu_props.on_close, { once = true })
 end
 
 local function single_click_edit(node)
@@ -80,7 +132,7 @@ require('nvim-tree').setup({
     auto_resize = true,
     mappings = {
       list = {
-        { key = "<RightMouse>", action = "context_menu", action_cb = sidebar_context_menu},
+        -- { key = "<RightMouse>", action = "context_menu", action_cb = sidebar_context_menu},
         { key = "<M-v>", action = "vsplit" },
         { key = "<M-x>", action = "split" },
         { key = "<M-t>", action = "tabnew" },
@@ -90,7 +142,7 @@ require('nvim-tree').setup({
         { key = "<D-r>", action = "refresh" },
         { key = "<Space>", action = "preview" },
         { key = "<BS>", action = "trash" },
-        { key = "<LeftMouse>", action= "single_click_edit", action_cb = single_click_edit},
+        -- { key = "<LeftRelease>", action= "single_click_edit", action_cb = single_click_edit},
         { key = "<2-LeftMouse>", action = "cd" },
 
       }
@@ -101,6 +153,7 @@ require('mini.comment').setup();
 require('mini.cursorword').setup();
 require('mini.jump').setup();
 require('mini.bufremove').setup();
+require("diffview").setup();
 
 require('mini.trailspace').setup();
 vim.cmd [[autocmd BufWritePre * lua MiniTrailspace.trim()]]
@@ -183,6 +236,10 @@ require("better_escape").setup()
 require'nvim-web-devicons'.setup()
 require('telescope').setup()
 require('telescope').load_extension('fzy_native');
+
+vim.g.copilot_filetypes = {
+  TelescopePrompt = false
+}
 
 vim.g.coq_settings = {
   auto_start = true,

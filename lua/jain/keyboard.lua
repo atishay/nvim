@@ -28,6 +28,8 @@ map('i', '<D-S-u>', '<cmd>:lua require("jain.reload").reload()<CR>')
 
 map('n', '<D-u>', '<cmd>:lua require("jain.reload").open()<CR>')
 map('i', '<D-u>', '<cmd>:lua require("jain.reload").open()<CR>')
+
+map('n', '<M-u>', '<cmd>:TSUpdate<CR>')
 -- Update after nvim 0.6.2
 
 -- Accidental quitting
