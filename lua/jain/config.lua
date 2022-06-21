@@ -1,5 +1,3 @@
-
-
 -- Highlight on yank
 vim.cmd [[
 augroup YankHighlight

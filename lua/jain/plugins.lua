@@ -7,7 +7,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 local function tsUpdate()
-  vim.cmd[[<cmd>:TSUpdate<CR>]]
+  vim.api.nvim_command('TSUpdate')
 end
 
 require "paq" {
@@ -20,7 +20,7 @@ require "paq" {
   "nvim-lua/plenary.nvim";                                              -- Telescope dependency
   "nvim-telescope/telescope.nvim";                                      -- Telescope for Ctrl+P menu
   "nvim-telescope/telescope-fzy-native.nvim";                           -- Telescope Fuzzy Native
-  "github/copilot.vim";                                                 -- GitHub Copilot
+  -- "github/copilot.vim";                                                 -- GitHub Copilot
   {"nvim-treesitter/nvim-treesitter", run = tsUpdate };                 -- Syntax highlighting
   {"nvim-treesitter/nvim-treesitter-refactor"};                         -- Refactor
   {"nvim-treesitter/nvim-treesitter-textobjects"};                      -- Text Objects
@@ -45,8 +45,15 @@ require "paq" {
   'sbdchd/neoformat';                                                   -- Formatting
   'MunifTanjim/nui.nvim';                                               -- Create UI (Context Menu)
   'sindrets/diffview.nvim';                                             -- Diff View
+  'neovim/nvim-lspconfig';                                              -- LSP
+  'williamboman/nvim-lsp-installer',                                    -- LSP Installer
+  {'ray-x/guihua.lua', run = 'cd lua/fzy && make'},                     -- Navigatior Lua dependency
+  'ray-x/navigator.lua',                                                -- Navigator
 }
 
+require'navigator'.setup({
+  lsp_installer = true
+})
 
 vim.g.neoformat_enabled_html = {'prettier', 'jsbeautify'}
 vim.g.neoformat_enabled_json = {'jsbeautify', 'prettier'}
@@ -54,75 +61,75 @@ vim.g.neoformat_enabled_javascript = {'prettier', 'jsbeautify'}
 vim.g.neoformat_enabled_typescript = {'prettier', 'jsbeautify'}
 vim.g.neoformat_enabled_lua = {'lua-format'}
 
-local Menu = require("nui.menu")
+-- local Menu = require("nui.menu")
 
 require('impatient');
 
 
-local function sidebar_context_menu(node)
-  -- require("nvim-tree.view").focus()
-  vim.cmd [[
-  execute "normal! \<LeftMouse>"
-  ]]
-  local lib = require'nvim-tree.lib'
-  local node = lib.get_node_at_cursor()
-  if not node then return end
-  print("Creating menu")
-  local popup_options = {
-    relative = "cursor",
-    position = {
-      row = 1,
-      col = 0,
-    },
-    border = {
-      style = "rounded",
-    }
-  }
-  local event = require("nui.utils.autocmd").event
-  local menu = Menu(popup_options, {
-    lines = {
-      Menu.separator("Group One"),
-      Menu.item("Item 1"),
-      Menu.item("Item 2"),
-      Menu.separator("Group Two", {
-        char = "-",
-        text_align = "right",
-      }),
-      Menu.item("Item 3"),
-      Menu.item("Item 4"),
-    },
-    max_width = 150,
-    keymap = {
-      focus_next = { "j", "<Down>", "<Tab>" },
-      focus_prev = { "k", "<Up>", "<S-Tab>" },
-      close = { "<Esc>", "<C-c>" },
-      submit = { "<CR>", "<Space>" },
-    },
-    on_close = function()
-      print("CLOSED")
-    end,
-    on_submit = function(item)
-      print("SUBMITTED", vim.inspect(item))
-    end,
-  })
-  -- print(node.absolute_path)
-  -- mount the component
-  menu:mount()
+-- local function sidebar_context_menu(node)
+--   -- require("nvim-tree.view").focus()
+--   vim.cmd [[
+--   execute "normal! \<LeftMouse>"
+--   ]]
+--   local lib = require'nvim-tree.lib'
+--   local node = lib.get_node_at_cursor()
+--   if not node then return end
+--   print("Creating menu")
+--   local popup_options = {
+--     relative = "cursor",
+--     position = {
+--       row = 1,
+--       col = 0,
+--     },
+--     border = {
+--       style = "rounded",
+--     }
+--   }
+--   local event = require("nui.utils.autocmd").event
+--   local menu = Menu(popup_options, {
+--     lines = {
+--       Menu.separator("Group One"),
+--       Menu.item("Item 1"),
+--       Menu.item("Item 2"),
+--       Menu.separator("Group Two", {
+--         char = "-",
+--         text_align = "right",
+--       }),
+--       Menu.item("Item 3"),
+--       Menu.item("Item 4"),
+--     },
+--     max_width = 150,
+--     keymap = {
+--       focus_next = { "j", "<Down>", "<Tab>" },
+--       focus_prev = { "k", "<Up>", "<S-Tab>" },
+--       close = { "<Esc>", "<C-c>" },
+--       submit = { "<CR>", "<Space>" },
+--     },
+--     on_close = function()
+--       print("CLOSED")
+--     end,
+--     on_submit = function(item)
+--       print("SUBMITTED", vim.inspect(item))
+--     end,
+--   })
+--   -- print(node.absolute_path)
+--   -- mount the component
+--   menu:mount()
+--
+--   -- close menu when cursor leaves buffer
+--   menu:on(event.BufLeave, menu.menu_props.on_close, { once = true })
+-- end
 
-  -- close menu when cursor leaves buffer
-  menu:on(event.BufLeave, menu.menu_props.on_close, { once = true })
-end
-
-local function single_click_edit(node)
-  vim.cmd [[
-  execute "normal! \<LeftMouse>"
-  ]]
-  local lib = require'nvim-tree.lib'
-  local node = lib.get_node_at_cursor()
-  if not node then return end
-  local actions = require'nvim-tree.actions'
-  actions.on_keypress("edit")
-end
+-- local function single_click_edit(node)
+--   vim.cmd [[
+--   execute "normal! \<LeftMouse>"
+--   ]]
+--   local lib = require'nvim-tree.lib'
+--   local node = lib.get_node_at_cursor()
+--   if not node then return end
+--   local actions = require'nvim-tree.actions'
+--   actions.on_keypress("edit")
+-- end
 
 
 
@@ -156,7 +163,14 @@ require('mini.bufremove').setup();
 require("diffview").setup();
 
 require('mini.trailspace').setup();
-vim.cmd [[autocmd BufWritePre * lua MiniTrailspace.trim()]]
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*",
+    callback = function()
+        require('mini.trailspace').trim()
+    end,
+    desc = "Trim spaces on save",
+})
 
 require('bufferline').setup{
   options = {
@@ -231,6 +245,7 @@ require('bufferline').setup{
 }
 
 require('monokai').setup { palette = require('monokai').pro }
+
 vim.cmd('colorscheme monokai')
 require("better_escape").setup()
 require'nvim-web-devicons'.setup()
@@ -255,7 +270,7 @@ vim.g.coq_settings = {
 }
 
 require "coq_3p"  {
-  { src = "copilot", short_name = "COP", accept_key = "<D-CR>" },
+  -- { src = "copilot", short_name = "COP", accept_key = "<D-CR>" },
   { src = "bc", short_name = "MATH", precision = 6 },
   { src = "nvimlua", short_name = "nLUA" },
 }
@@ -298,7 +313,7 @@ remap('i', '<bs>', 'v:lua.MUtils.BS()', { expr = true, noremap = true })
 
 
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = { "c", "lua", "rust", "javascript", "tsx", "typescript", "yaml", "comment" , "go", "json", "lua", "css", "html", "vim",  }, -- one of "all", or a list of languages
   highlight = {
     enable = true,                 -- false will disable the whole extension
   },
@@ -359,4 +374,8 @@ require("toggleterm").setup{
   end
 }
 
-require('lualine').setup()
+require('lualine').setup{
+  options = {
+    globalstatus = true
+  }
+}

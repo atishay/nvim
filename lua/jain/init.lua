@@ -3,8 +3,8 @@ vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true 
 
 
 require('jain.plugins')
-require('jain.config')
 require('jain.keyboard')
+require('jain.config')
 -- local fsize = vim.fn.getfsize(vim.fn.expand("%:p:f"))
 -- if fsize == nil or fsize < 0 then
 --   fsize = 1
@@ -31,4 +31,4 @@ require('jain.keyboard')
 -- Reveal in sidebar
 -- https://github.com/AckslD/nvim-neoclip.lua
 
-
+vim.cmd [[au BufNewFile,BufRead Jenkinsfile setf groovy]]

@@ -4,7 +4,7 @@
 
 
 -- Functional wrapper for mapping custom keybindings
-function map(mode, lhs, rhs, opts)
+local function map(mode, lhs, rhs, opts)
     local options = { noremap = true }
     if opts then
         options = vim.tbl_extend("force", options, opts)
@@ -119,15 +119,15 @@ map('v', '<D-s>', '<C-[>:w<CR>vgv');
 
 map('n', '<D-p>', '<cmd>lua require(\'telescope.builtin\').find_files()<cr>');
 map('n', '<D-S-p>', '<cmd>lua require(\'telescope.builtin\').commands()<cr>');
-map('n', '<D-r>', '<cmd>lua require(\'telescope.builtin\').builtins()<cr>');
+map('n', '<D-r>', '<cmd>lua require(\'telescope.builtin\').builtin()<cr>');
 
 map('i', '<D-p>', '<cmd>lua require(\'telescope.builtin\').find_files()<cr>');
 map('i', '<D-S-p>', '<cmd>lua require(\'telescope.builtin\').commands()<cr>');
-map('i', '<D-r>', '<cmd>lua require(\'telescope.builtin\').builtins()<cr>');
+map('i', '<D-r>', '<cmd>lua require(\'telescope.builtin\').builtin()<cr>');
 
 map('t', '<D-p>', '<cmd>lua require(\'telescope.builtin\').find_files()<cr>');
 map('t', '<D-S-p>', '<cmd>lua require(\'telescope.builtin\').commands()<cr>');
-map('t', '<D-r>', '<cmd>lua require(\'telescope.builtin\').builtins()<cr>');
+map('t', '<D-r>', '<cmd>lua require(\'telescope.builtin\').builtin()<cr>');
 
 map('n', '<D-w>', ':lua MiniBufremove.delete()<CR>');
 map('i', '<D-w>', '<C-[>:lua MiniBufremove.delete()<CR>');
