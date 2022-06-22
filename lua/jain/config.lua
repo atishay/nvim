@@ -1,11 +1,16 @@
 -- Highlight on yank
-vim.cmd [[
-augroup YankHighlight
-autocmd!
-autocmd TextYankPost * silent! lua vim.highlight.on_yank()
-augroup end
-]]
+local YankHighlight = vim.api.nvim_create_augroup("YankHighlight", {clear = true})
 
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = YankHighlight,
+  pattern = "*",
+  desc = "Highlight yanked text.",
+  callback = function ()
+    vim.highlight.on_yank()
+  end
+})
+
+vim.o.mouse = 'ar'
 vim.o.number = true
 vim.o.expandtab = true
 vim.o.linebreak = true
