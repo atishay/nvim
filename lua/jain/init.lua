@@ -31,4 +31,9 @@ require('jain.config')
 -- Reveal in sidebar
 -- https://github.com/AckslD/nvim-neoclip.lua
 
-vim.cmd [[au BufNewFile,BufRead Jenkinsfile setf groovy]]
+vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
+                      pattern = "Jenkinsfile",
+                      callback = function ()
+                                  vim.api.nvim_command('setf groovy')
+                                 end
+                    })
